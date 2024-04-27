@@ -20,7 +20,7 @@ COPY PizzaSales FROM 'D:/pizza_sales.csv' WITH CSV HEADER;
 select * from pizzasales;
 
 
---KPI's
+--Finding out the important KPI's required to determine sales result
 SELECT SUM(total_price) AS Total_Revenue
 FROM pizzasales;
 
