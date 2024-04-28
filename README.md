@@ -22,7 +22,7 @@ https://public.tableau.com/app/profile/megha.4731/viz/pizza_sales_dashboard_1714
 Here is also the additional screenshot of the dashboards: 
 ![pizza_sales_dashboard](https://github.com/megha150/Pizza_Sales_Report/assets/142752631/27195f6a-aebc-4ad5-82c9-b84608c0187a)
 ![best_worst_pizza_sellers_dashboard](https://github.com/megha150/Pizza_Sales_Report/assets/142752631/5b8c75cb-ae7f-4fca-bd2e-82a67cbef969)
-But make sure to view these on Tableau Public also as you can navigate through each graphs and get the particular insights in each of the categories by just clicking on that category.
+Please make sure to view these on Tableau Public also as you can navigate through each graphs and get the particular insights in each of the categories by just clicking on that category.
 ## Tools Used 
 - PostgreSQL
 - Tableau
