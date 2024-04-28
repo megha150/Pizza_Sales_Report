@@ -1,3 +1,4 @@
+--Creating the table named PizzaSales in PostgreSQL
 CREATE TABLE PizzaSales(
 	pizza_id serial Primary Key,
 	order_id int,
@@ -14,39 +15,46 @@ CREATE TABLE PizzaSales(
 );
 
 
+--Extracting the data from CSV file
 COPY PizzaSales FROM 'D:/pizza_sales.csv' WITH CSV HEADER;
 
 
+--Checking to see if all the data is extracted successfully
 select * from pizzasales;
 
 
 --Finding out the important KPI's required to determine sales result
+--Total Revenue:
 SELECT SUM(total_price) AS Total_Revenue
 FROM pizzasales;
 
+--Average Order Value:
 SELECT (SUM(total_price) / COUNT(DISTINCT order_id)) AS Avg_order_Value 
 FROM pizzasales;
 
+--Total Pizzas Sold:
 SELECT SUM(quantity) AS Total_pizza_sold 
 FROM pizzasales;
 
+--Total Orders:
 SELECT COUNT(DISTINCT order_id) AS Total_Orders 
 FROM pizzasales;
 
+--Average Pizzas Per Order:
 SELECT CAST(CAST(SUM(quantity) AS numeric(10,2)) / 
 CAST(COUNT(DISTINCT order_id) AS numeric(10,2)) AS numeric(10,2))
 AS Avg_Pizzas_per_order
 FROM pizzasales;
 
 
---hourly trend for total pizzas sold
+--Finding out hourly trend for total pizzas sold
 SELECT extract(HOUR from order_time) as order_hours, SUM(quantity) as total_pizzas_sold
 from pizzasales
 group by extract(HOUR from order_time)
 order by extract(HOUR from order_time);
 
 
---weekly trend for total orders
+--Finding out weekly trend for total orders
 SELECT 
     extract(week from order_date) AS WeekNumber,
     extract(year from order_date) AS Year,
@@ -60,14 +68,14 @@ ORDER BY
     Year, WeekNumber;
 	
 	
---% of Sales by Pizza Category
+--Determining the % of Sales by Pizza Category
 SELECT pizza_category, CAST(SUM(total_price) AS numeric(10,2)) as total_revenue,
 CAST(SUM(total_price) * 100 / (SELECT SUM(total_price) from pizzasales) AS numeric(10,2)) AS PCT
 FROM pizzasales
 GROUP BY pizza_category;
 
 
---% of Sales by Pizza Size
+--Determining the % of Sales by Pizza Size
 SELECT pizza_size, CAST(SUM(total_price) AS NUMERIC(10,2)) as total_revenue,
 CAST(SUM(total_price) * 100 / (SELECT SUM(total_price) from pizzasales) AS NUMERIC(10,2)) AS PCT
 FROM pizzasales
@@ -75,14 +83,14 @@ GROUP BY pizza_size
 ORDER BY pizza_size;
 
 
---Total Pizzas Sold by Pizza Category
+--Finding the Total Pizzas Sold by Pizza Category
 SELECT pizza_category, SUM(quantity) as Total_Quantity_Sold
 FROM pizzasales
 GROUP BY pizza_category
 ORDER BY Total_Quantity_Sold DESC;
 
 
---Top 5 Pizzas by Revenue
+--Determining the Top 5 Pizzas by Revenue
 SELECT pizza_name, SUM(total_price) AS Total_Revenue
 FROM pizzasales
 GROUP BY pizza_name
@@ -90,7 +98,7 @@ ORDER BY Total_Revenue DESC
 LIMIT 5;
 
 
---Bottom 5 Pizzas by Revenue
+--Determining the Bottom 5 Pizzas by Revenue
 SELECT pizza_name, SUM(total_price) AS Total_Revenue
 FROM pizzasales
 GROUP BY pizza_name
@@ -98,7 +106,7 @@ ORDER BY Total_Revenue ASC
 LIMIT 5;
 
 
---Top 5 Pizzas by Quantity
+--Determining the Top 5 Pizzas by Quantity
 SELECT pizza_name, SUM(quantity) AS Total_Pizza_Sold
 FROM pizzasales
 GROUP BY pizza_name
@@ -106,7 +114,7 @@ ORDER BY Total_Pizza_Sold DESC
 LIMIT 5;
 
 
---Bottom 5 Pizzas by Quantity
+--Determining the Bottom 5 Pizzas by Quantity
 SELECT pizza_name, SUM(quantity) AS Total_Pizza_Sold
 FROM pizzasales
 GROUP BY pizza_name
@@ -114,7 +122,7 @@ ORDER BY Total_Pizza_Sold ASC
 LIMIT 5;
 
 
---Top 5 Pizzas by Total Orders
+--Determining the Top 5 Pizzas by Total Orders
 SELECT pizza_name, COUNT(DISTINCT order_id) AS Total_Orders
 FROM pizzasales
 GROUP BY pizza_name
@@ -122,7 +130,7 @@ ORDER BY Total_Orders DESC
 LIMIT 5;
 
 
---Bottom 5 Pizzas by Total Orders
+--Determining the Bottom 5 Pizzas by Total Orders
 SELECT pizza_name, COUNT(DISTINCT order_id) AS Total_Orders
 FROM pizzasales
 GROUP BY pizza_name
